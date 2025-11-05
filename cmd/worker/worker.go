@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -19,6 +20,7 @@ var defaultWorker = Worker{
 func main() {
 
 	http.HandleFunc("/send", defaultWorker.sendLines)
+	http.HandleFunc("/receive", defaultWorker.receiveLines)
 
 	fmt.Println("Server started at http://localhost:8080")
 	http.ListenAndServe(":8080", nil)
@@ -41,4 +43,38 @@ func (worker Worker) sendLines(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte("Received: " + string(body)))
+}
+
+func (worker Worker) receiveLines(w http.ResponseWriter, r *http.Request) {
+	response, err := http.Get(worker.QueueBaseUrl + "/get-item")
+	if err != nil {
+		w.WriteHeader(http.StatusNoContent)
+		w.Write([]byte("Queue is empty"))
+		// http.Error(w, err.Error(), http.StatusNoContent)
+	}
+
+	defer response.Body.Close()
+	body, err := io.ReadAll(response.Body)
+	if err != nil {
+		http.Error(w, err.Error(), 500)
+	}
+	writeFile(string(body), "output.txt") // add error handling
+	w.WriteHeader(http.StatusOK)
+}
+
+func writeFile(line string, fileName string) error {
+	if line == "" {
+		return fmt.Errorf("empty line")
+	}
+	f, err := os.OpenFile(fileName, os.O_APPEND|os.O_WRONLY|os.O_CREATE, 0600)
+	if err != nil {
+		return err
+	}
+
+	defer f.Close()
+
+	if _, err = f.WriteString(line + "\n"); err != nil {
+		return err
+	}
+	return nil
 }
