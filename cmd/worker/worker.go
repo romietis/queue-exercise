@@ -14,7 +14,7 @@ type Worker struct {
 }
 
 var defaultWorker = Worker{
-	QueueBaseUrl: "http/:/localhost:8000",
+	QueueBaseUrl: "http://localhost:8000",
 }
 
 func main() {
