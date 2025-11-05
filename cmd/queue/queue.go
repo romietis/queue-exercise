@@ -13,7 +13,7 @@ func main() {
 	http.HandleFunc("/add-item", addItem)
 	http.HandleFunc("/get-item", getItem)
 
-	fmt.Println("Server started at http://127.0.0.1:8000")
+	fmt.Println("Server started at http://localhost:8000")
 	http.ListenAndServe(":8000", nil)
 }
 
@@ -41,7 +41,7 @@ func getItem(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Item retrieved from the queue: %s", item)
 	} else {
 		w.WriteHeader(http.StatusNoContent)
-	w.Write([]byte("Queue is empty"))
+		w.Write([]byte("Queue is empty"))
 		log.Println("Queue is empty")
 	}
 }
