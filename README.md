@@ -51,10 +51,10 @@ go tool cover -html=cover.out
 ```
 
 ## TODO
-- [] Potect Queue from simultanues access by mutex
-- [] Write dockerfiles for separte services using multi-stage build
-- [] Restructuring the code to avoid tight coupling - http handlers are direclty in main
-- [] Using web framework like Gin or Chi
+- [ ] Potect Queue from simultanues access by mutex
+- [ ] Write dockerfiles for separte services using multi-stage build
+- [ ] Restructuring the code to avoid tight coupling - http handlers are direclty in main
+- [ ] Using web framework like Gin or Chi
 
 ## Disclamer
 
