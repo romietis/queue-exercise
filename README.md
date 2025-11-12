@@ -55,9 +55,3 @@ go tool cover -html=cover.out
 - [ ] Write dockerfiles for separte services using multi-stage build
 - [ ] Restructuring the code to avoid tight coupling - http handlers are direclty in main
 - [ ] Using web framework like Gin or Chi
-
-## Disclamer
-
-If any addtional changes I will introduce they will be in the sepate branch until the solution review together!
-
-Cheers, it was fun!
